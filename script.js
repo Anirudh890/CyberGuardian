@@ -10,73 +10,199 @@ function iconBadge(name){
   return `<span class="icon-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${icons[name]}</svg></span>`;
 }
 
-let current = 'email';
+let current = null;
 let currentApp = 0;
 let theme = 'light';
+
+const groupLabels = {
+  security:'Information security',
+  privacy:'Data privacy',
+  incidents:'Something Happened'
+};
+
+const categoryLabels = {
+  email:'Communication',
+  phone:'Calls & Messages',
+  banking:'Money & Payments',
+  messaging:'Chat & Messaging',
+  social:'Social & Sharing',
+  browser:'Web Browsing',
+  wifi:'Network Security',
+  passwords:'Account Security',
+  'phone-device':'Device Security',
+  usb:'Physical Media',
+  scams:'Scams & Social engineering',
+  'updates-backups':'Updates & Backups',
+  'privacy-permissions':'Privacy & Permissions',
+  shopping:'Online Shopping',
+  'accounts-recovery':'Account Security',
+  'data-privacy':'Data Privacy',
+  'incident-security':'Security Incident Help',
+  'incident-privacy':'Privacy Incident Help'
+};
+
+const groupOrder = ['security','privacy','incidents'];
+
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.getElementById('backdrop');
+const openTopicsButton = document.getElementById('openTopics');
+const closeTopicsButton = document.getElementById('closeTopics');
+const startButton = document.getElementById('startButton');
+const welcome = document.getElementById('welcome');
+const main = document.getElementById('main');
+const sidebarHome = document.getElementById('sidebarHome');
 
 function applyTheme(){
   document.documentElement.setAttribute('data-theme', theme);
 }
+
+function accentFor(ramp){
+  return theme === 'dark' ? (ramp.darkAccent || ramp.accent) : ramp.accent;
+}
+
+function setTopicsOpen(isOpen){
+  sidebar.classList.toggle('open', isOpen);
+  backdrop.classList.toggle('visible', isOpen);
+  sidebar.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+  openTopicsButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (isOpen){ closeTopicsButton.focus(); }
+}
+
 document.getElementById('themeToggle').onclick = () => {
   theme = theme === 'light' ? 'dark' : 'light';
   applyTheme();
+  render();
 };
 
-function render(){
+function goHome(){
+  current = null;
+  currentApp = 0;
+  setTopicsOpen(false);
+  render();
+}
+
+document.getElementById('brandHome').onclick = goHome;
+sidebarHome.onclick = goHome;
+openTopicsButton.onclick = () => setTopicsOpen(true);
+closeTopicsButton.onclick = () => setTopicsOpen(false);
+backdrop.onclick = () => setTopicsOpen(false);
+startButton.onclick = () => setTopicsOpen(true);
+
+document.querySelectorAll('[data-open-topics]').forEach(button => {
+  button.addEventListener('click', () => setTopicsOpen(true));
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setTopicsOpen(false);
+});
+
+function renderSidebar(){
   const sb = document.getElementById('items');
   sb.innerHTML = '';
-  data.forEach(t => {
-    const r = ramps[t.color];
-    const el = document.createElement('div');
-    el.className = 'item' + (t.id === current ? ' active' : '');
-    el.style.setProperty('--tint', r.tint);
-    el.style.setProperty('--accent', r.accent);
-    el.innerHTML = iconBadge(t.icon) + t.label;
-    el.onclick = () => { current = t.id; currentApp = 0; render(); };
-    sb.appendChild(el);
+
+  groupOrder.forEach(group => {
+    const groupItems = data.filter(item => item.group === group);
+    if (!groupItems.length) return;
+
+    const section = document.createElement('section');
+    section.className = 'sidebar-group';
+    section.setAttribute('aria-labelledby', `group-${group}`);
+
+    const heading = document.createElement('div');
+    heading.className = 'sidebar-group-title';
+    heading.id = `group-${group}`;
+    heading.textContent = groupLabels[group];
+    section.appendChild(heading);
+
+    groupItems.forEach(t => {
+      const r = ramps[t.color] || ramps.blue;
+      const accent = accentFor(r);
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'item' + (t.id === current ? ' active' : '');
+      el.style.setProperty('--tint', r.tint);
+      el.style.setProperty('--accent', accent);
+      el.innerHTML = `
+        ${iconBadge(t.icon)}
+        <span class="item-copy">
+          <strong>${t.label}</strong>
+          <small>${t.description}</small>
+        </span>`;
+      el.onclick = () => {
+        current = t.id;
+        currentApp = 0;
+        setTopicsOpen(false);
+        render();
+      };
+      section.appendChild(el);
+    });
+
+    sb.appendChild(section);
   });
+}
 
-  const gWrap = document.getElementById('glossaryWrap');
-  gWrap.innerHTML = '';
-  const r = ramps[glossary.color];
-  const gEl = document.createElement('div');
-  gEl.className = 'item' + (current === glossary.id ? ' active' : '');
-  gEl.style.setProperty('--tint', r.tint);
-  gEl.style.setProperty('--accent', r.accent);
-  gEl.innerHTML = iconBadge(glossary.icon) + glossary.label;
-  gEl.onclick = () => { current = glossary.id; render(); };
-  gWrap.appendChild(gEl);
+function render(){
+  renderSidebar();
 
-  const item = data.find(t => t.id === current) || glossary;
-  const rr = ramps[item.color];
-  const main = document.getElementById('main');
+  if (!current){
+    welcome.hidden = false;
+    main.hidden = true;
+    main.innerHTML = '';
+    return;
+  }
+
+  const item = data.find(t => t.id === current);
+  if (!item){
+    goHome();
+    return;
+  }
+
+  welcome.hidden = true;
+  main.hidden = false;
+
+  const rr = ramps[item.color] || ramps.blue;
+  const accent = accentFor(rr);
   main.style.setProperty('--tint', rr.tint);
-  main.style.setProperty('--accent', rr.accent);
+  main.style.setProperty('--accent', accent);
 
   const hasApps = !!item.apps;
-  const points = hasApps ? item.apps[currentApp].points : item.points;
+  const currentAppData = hasApps ? item.apps[currentApp] : null;
+  const points = hasApps ? currentAppData.points : item.points;
+  const contentLabel = categoryLabels[item.id] || groupLabels[item.group] || 'Guide';
 
   main.innerHTML = `
-    <span class="tag" style="background:${rr.tint};color:${rr.accent}">${icon(item.icon)}${item === glossary ? 'Baseline' : 'Everyday tool'}</span>
-    <h1>${item.label}</h1>
-    <p class="lede">Plain, no-jargon points — tap through, no scrolling essays.</p>
-    ${hasApps ? `<div class="subtabs" id="subtabs"></div>` : ''}
+    <div class="content-head">
+      <span class="tag">${icon(item.icon)}${contentLabel}</span>
+      <button class="content-home" type="button" aria-label="Back to CyberGuide home">Home</button>
+    </div>
+    <h1>${item.label}${currentAppData ? ` <span class="app-heading">· ${currentAppData.name}</span>` : ''}</h1>
+    <p class="lede">${item.description}</p>
+    ${hasApps ? `<div class="subtabs" id="subtabs" aria-label="Choose an app"></div>` : ''}
     <div class="points">
       ${points.map((p, i) => `
         <div class="point">
-          <div class="num" style="background:${rr.tint};color:${rr.accent}">${i + 1}</div>
+          <div class="num">${i + 1}</div>
           <p>${p}</p>
         </div>`).join('')}
     </div>`;
 
+  main.querySelector('.content-home').onclick = goHome;
+
   if (hasApps){
     const tabWrap = document.getElementById('subtabs');
     item.apps.forEach((a, i) => {
-      const tb = document.createElement('div');
+      const ar = ramps[a.color] || rr;
+      const appAccent = accentFor(ar);
+      const tb = document.createElement('button');
+      tb.type = 'button';
       tb.className = 'subtab' + (i === currentApp ? ' active' : '');
       tb.textContent = a.name;
-      tb.style.setProperty('--accent', rr.accent);
-      tb.onclick = () => { currentApp = i; render(); };
+      tb.style.setProperty('--accent', appAccent);
+      tb.style.setProperty('--tint', ar.tint);
+      tb.onclick = () => {
+        currentApp = i;
+        render();
+      };
       tabWrap.appendChild(tb);
     });
   }

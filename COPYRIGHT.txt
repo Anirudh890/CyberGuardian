@@ -1,0 +1,7 @@
+CyberGuide © 2026
+
+CyberGuide brings together established cybersecurity and online-safety guidance and presents it in plain, practical language for everyday users. The underlying concepts and general security practices are not claimed as original inventions.
+
+The wording, structure, organisation, presentation, and design of this guide are the work of the CyberGuide project. Public access to the site does not grant permission to reproduce, republish, modify, or redistribute the guide or substantial portions of its presentation without permission.
+
+Third-party names, trademarks, product names, and references remain the property of their respective owners.
