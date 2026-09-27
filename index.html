@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="CyberGuide — plain-language guidance for information security, data privacy, and what to do when something goes wrong.">
 <title>CyberGuide</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -71,17 +74,8 @@
               <span class="card-dot" aria-hidden="true"></span>
             </div>
 
-            <button class="guide-step pick-topic" type="button" data-open-topics>
-              <span class="step-number">01</span>
-              <span class="step-body">
-                <strong>Pick a topic</strong>
-                <span>Choose something familiar from the Topics menu.</span>
-              </span>
-              <span class="step-action">Open topics</span>
-            </button>
-
             <div class="guide-step static-step">
-              <span class="step-number">02</span>
+              <span class="step-number">01</span>
               <span class="step-body">
                 <strong>Read the points</strong>
                 <span>Short reminders. No technical background required.</span>
@@ -89,7 +83,7 @@
             </div>
 
             <div class="guide-step static-step">
-              <span class="step-number">03</span>
+              <span class="step-number">02</span>
               <span class="step-body">
                 <strong>Put a few into practice</strong>
                 <span>You do not have to change everything at once.</span>
@@ -98,18 +92,19 @@
           </div>
         </div>
 
-        <div class="welcome-note">
-          <span class="note-mark" aria-hidden="true">✓</span>
-          <div>
-            <strong>Built for ordinary life.</strong>
-            <span>Existing security and privacy practices, rewritten in plain language for people with or without an IT background.</span>
-          </div>
-        </div>
-
-        <div class="welcome-pillars" aria-label="CyberGuide areas">
-          <span><b>Information security</b><small>Protect accounts, devices & everyday activity.</small></span>
-          <span><b>Data privacy</b><small>Understand what information is shared and collected.</small></span>
-          <span><b>Something happened</b><small>Practical next steps when a problem has already occurred.</small></span>
+        <div class="welcome-pillars" role="list" aria-label="CyberGuide areas">
+          <button type="button" class="pillar-link" role="listitem" data-pillar="security">
+            <b>Information security</b><small>Protect accounts, devices &amp; everyday activity.</small>
+            <span class="pillar-go">Open →</span>
+          </button>
+          <button type="button" class="pillar-link" role="listitem" data-pillar="privacy">
+            <b>Data privacy</b><small>Understand what information is shared and collected.</small>
+            <span class="pillar-go">Open →</span>
+          </button>
+          <button type="button" class="pillar-link" role="listitem" data-pillar="incidents">
+            <b>Something happened</b><small>Practical next steps when a problem has already occurred.</small>
+            <span class="pillar-go">Open →</span>
+          </button>
         </div>
 
         <footer class="welcome-footer">

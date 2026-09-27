@@ -1,0 +1,74 @@
+# CyberGuide — robots.txt
+# Regular search engines (Google, Bing, etc.) are welcome, so the guide
+# can still be found. AI/LLM training and scraping crawlers are asked
+# not to collect this content.
+#
+# Note: robots.txt is a voluntary convention, not an enforcement
+# mechanism. Reputable crawlers honor it; some (Bytespider, and any
+# crawler using a fake/undeclared user-agent) do not. If scraping
+# becomes a real problem, ask your host (Cloudflare, Netlify, etc.)
+# about their AI-bot-blocking or WAF features for actual enforcement.
+
+# --- OpenAI ---
+User-agent: GPTBot
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+# --- Anthropic ---
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-User
+Disallow: /
+
+User-agent: Claude-SearchBot
+Disallow: /
+
+User-agent: claude-code
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# --- Google (AI training only — Googlebot search is untouched below) ---
+User-agent: Google-Extended
+Disallow: /
+
+# --- Apple (AI training only — Applebot for Siri/Spotlight is untouched) ---
+User-agent: Applebot-Extended
+Disallow: /
+
+# --- Perplexity ---
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
+
+# --- Common Crawl (dataset used by many AI labs) ---
+User-agent: CCBot
+Disallow: /
+
+# --- Amazon ---
+User-agent: Amazonbot
+Disallow: /
+
+# --- Meta ---
+User-agent: meta-externalagent
+Disallow: /
+
+# --- ByteDance (has a poor history of honoring robots.txt) ---
+User-agent: Bytespider
+Disallow: /
+
+# --- Everyone else, including regular search engines ---
+User-agent: *
+Allow: /

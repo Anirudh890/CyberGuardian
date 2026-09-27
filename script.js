@@ -17,28 +17,28 @@ let theme = 'light';
 const groupLabels = {
   security:'Information security',
   privacy:'Data privacy',
-  incidents:'Something Happened'
+  incidents:'Something happened'
 };
 
 const categoryLabels = {
   email:'Communication',
-  phone:'Calls & Messages',
-  banking:'Money & Payments',
-  messaging:'Chat & Messaging',
-  social:'Social & Sharing',
-  browser:'Web Browsing',
-  wifi:'Network Security',
-  passwords:'Account Security',
-  'phone-device':'Device Security',
-  usb:'Physical Media',
-  scams:'Scams & Social engineering',
-  'updates-backups':'Updates & Backups',
-  'privacy-permissions':'Privacy & Permissions',
-  shopping:'Online Shopping',
-  'accounts-recovery':'Account Security',
-  'data-privacy':'Data Privacy',
-  'incident-security':'Security Incident Help',
-  'incident-privacy':'Privacy Incident Help'
+  phone:'Calls & messages',
+  banking:'Money & payments',
+  messaging:'Chat & messaging',
+  social:'Social & sharing',
+  browser:'Web browsing',
+  wifi:'Network security',
+  passwords:'Account security',
+  'phone-device':'Device security',
+  usb:'Physical media',
+  scams:'Scams & social engineering',
+  'updates-backups':'Updates & backups',
+  'privacy-permissions':'Privacy & permissions',
+  shopping:'Online shopping',
+  'accounts-recovery':'Account security',
+  'data-privacy':'Data privacy',
+  'incident-security':'Security incident help',
+  'incident-privacy':'Privacy incident help'
 };
 
 const groupOrder = ['security','privacy','incidents'];
@@ -90,6 +90,17 @@ startButton.onclick = () => setTopicsOpen(true);
 
 document.querySelectorAll('[data-open-topics]').forEach(button => {
   button.addEventListener('click', () => setTopicsOpen(true));
+});
+
+document.querySelectorAll('.pillar-link').forEach(button => {
+  button.addEventListener('click', () => {
+    const group = button.dataset.pillar;
+    setTopicsOpen(true);
+    requestAnimationFrame(() => {
+      const heading = document.getElementById(`group-${group}`);
+      if (heading) heading.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    });
+  });
 });
 
 document.addEventListener('keydown', event => {
