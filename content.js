@@ -1,25 +1,21 @@
 // ---------------------------------------------------------------
-// EDIT THIS FILE to add tools, change wording, or add new points.
-// You never need to touch style.css or script.js for content changes.
+// EDIT THIS FILE to change wording, add topics, or add points.
+// script.js and style.css don't need to change for content edits.
+// Keep topics to about 3 points; put shared advice in "essentials".
 // ---------------------------------------------------------------
 
-// Color options for each category and app.
 const ramps = {
-  blue:{tint:'#e6f1fb',accent:'#0c7bd6',darkAccent:'#63b3ff',dark:'#0c447c'},
-  teal:{tint:'#e1f5ee',accent:'#0f9e73',darkAccent:'#51d9ad',dark:'#085041'},
-  coral:{tint:'#faece7',accent:'#d85a30',darkAccent:'#ff8b69',dark:'#712b13'},
-  amber:{tint:'#faeeda',accent:'#c7860f',darkAccent:'#f0ba57',dark:'#633806'},
-  purple:{tint:'#eeedfe',accent:'#6c62d9',darkAccent:'#a69cff',dark:'#3c3489'},
-  pink:{tint:'#fbeaf0',accent:'#d4537e',darkAccent:'#ff8eb2',dark:'#72243e'},
-
-  // Messaging app colours
-  green:{tint:'#e8f8ef',accent:'#25a95a',darkAccent:'#56d889',dark:'#176b39'},
-  sky:{tint:'#e8f5fd',accent:'#229ed9',darkAccent:'#57c7ff',dark:'#12618a'},
-  messenger:{tint:'#eaf3ff',accent:'#0084ff',darkAccent:'#66adff',dark:'#0059ad'}
+  blue:{tint:'#e6f1fb',accent:'#0c7bd6',darkAccent:'#63b3ff'},
+  teal:{tint:'#e1f5ee',accent:'#0f9e73',darkAccent:'#51d9ad'},
+  coral:{tint:'#faece7',accent:'#d85a30',darkAccent:'#ff8b69'},
+  amber:{tint:'#faeeda',accent:'#c7860f',darkAccent:'#f0ba57'},
+  purple:{tint:'#eeedfe',accent:'#6c62d9',darkAccent:'#a69cff'},
+  pink:{tint:'#fbeaf0',accent:'#d4537e',darkAccent:'#ff8eb2'},
+  green:{tint:'#e8f8ef',accent:'#25a95a',darkAccent:'#56d889'},
+  sky:{tint:'#e8f5fd',accent:'#229ed9',darkAccent:'#57c7ff'},
+  messenger:{tint:'#eaf3ff',accent:'#0084ff',darkAccent:'#66adff'}
 };
 
-// Icon shapes used in the sidebar. Add a new key here if you add a new
-// category and want a distinct icon for it.
 const icons = {
   mail:'<path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/>',
   phone:'<path d="M6 3h4l1 5-2.5 2a13 13 0 006 6l2-2.5 5 1v4a2 2 0 01-2 2C10 21 3 14 3 5a2 2 0 012-2z"/>',
@@ -34,342 +30,274 @@ const icons = {
   warning:'<path d="M12 3l9 16H3z"/><path d="M12 9v4M12 17h.01"/>',
   refresh:'<path d="M20 11a8 8 0 00-14.8-4L3 9"/><path d="M3 4v5h5"/><path d="M4 13a8 8 0 0014.8 4L21 15"/><path d="M21 20v-5h-5"/>',
   lock:'<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 018 0v3"/>',
-  cart:'<circle cx="9" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/><path d="M3 4h2l2.2 10.5h9.9L20 7H6"/>',
-  recovery:'<path d="M4 8a8 8 0 111.7 8.7"/><path d="M4 4v4h4"/><path d="M12 7v5l3 2"/>',
-  privacy:'<path d="M12 3s7 3 7 9a7 7 0 01-14 0c0-6 7-9 7-9z"/><path d="M9 12a3 3 0 006 0c0-1.7-1.3-3-3-3s-3 1.3-3 3z"/>',
+  privacy:'<path d="M12 3s7 3 7 9a7 7 0 01-14 0c0-6 7-9 7-9z"/><path d="M9 12a3 3 0 006 0c0-1.700-1.300-3-3-3s-3 1.300-3 3z"/>',
   incident:'<path d="M5 14a7 7 0 0114 0v5H5z"/><path d="M8 14v-2a4 4 0 018 0v2"/><path d="M12 7V3"/>',
-  shield:'<path d="M12 3l7 3v5c0 4.5-2.8 8-7 10-4.2-2-7-5.5-7-10V6z"/>',
-  book:'<path d="M4 4h11a3 3 0 013 3v13H7a3 3 0 00-3 3z"/><path d="M4 4v16"/>',
-  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/>',
-  moon:'<path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/>',
-  bubblePhone:'<path d="M4 4h13a3 3 0 013 3v7a3 3 0 01-3 3H9l-5 4z"/><path d="M9.5 8.3c.4 1.4 1.4 2.6 2.6 3.1l.7-1c.3-.4.9-.5 1.3-.2l1.2.8c.3.2.4.6.2 1a2.6 2.6 0 01-3 1.3 6.4 6.4 0 01-4.2-4.3 2.6 2.6 0 011.2-3c.3-.2.7-.1 1 .2l.7 1.2c.2.4.2.7-.1 1z"/>',
-  bubbleShield:'<path d="M4 4h13a3 3 0 013 3v7a3 3 0 01-3 3H9l-5 4z"/><path d="M12 6.5l3 1.2v2.3c0 2-1.3 3.3-3 3.8-1.7-.5-3-1.8-3-3.8V7.7z"/>',
-  bubbleArrow:'<path d="M20 4h-13a3 3 0 00-3 3v7a3 3 0 003 3h6l5 4z"/><path d="M8.5 10.3l7-2.3-2.6 6.8-1.6-2.6-2.8-1.9z"/>',
-  bubbleBolt:'<path d="M4 4h13a3 3 0 013 3v7a3 3 0 01-3 3H9l-5 4z"/><path d="M13 6.5l-4 5h2.5L11 15l4-5h-2.5l.5-3.5z"/>',
-  bubbleApple:'<path d="M4 4h13a3 3 0 013 3v7a3 3 0 01-3 3H9l-5 4z"/><path d="M9 10.5c.8-.8 1.8-.8 2.6 0M12.4 10.5c.8-.8 1.8-.8 2.6 0"/>'
+  shield:'<path d="M12 3l7 3v5c0 4.500-2.800 8-7 10-4.200-2-7-5.500-7-10V6z"/>',
+  check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.500l2.700 2.700L16 9.500"/>'
 };
 
-// Main guide content. Each entry has a group for navigation, a short
-// description for the topic panel, and either points or an apps array.
-const data = [
-  {
-    id:'email',group:'security',label:'Email',description:'Messages, links & attachments.',color:'blue',icon:'mail',
-    points:[
-      'Check the sender address, not just the name shown.',
-      'Never click a link asking you to "verify" your account urgently.',
-      'Hover before you tap — see where a link actually goes.',
-      "Don't open attachments you weren't expecting.",
-      'Turn on two-step login for your email account.',
-      'Be suspicious of messages asking for passwords, codes, or money.',
-      'If an email looks unusual, contact the sender another way.',
-      'Check the spelling of website addresses before entering your password.',
-      'Delete or report obvious scam emails instead of replying.',
-      'Remember: seeing a familiar name does not mean the email is genuine.'
-    ]
+// The single landing-page toggle: what to do in each situation.
+const modes = {
+  safe:{
+    kicker:'HOW IT WORKS',
+    steps:[
+      ['Read the points','Short reminders. No technical background required.'],
+      ['Put a few into practice','You do not have to change everything at once.']
+    ],
+    link:['Start with the five essentials →','essentials']
   },
-  {
-    id:'phone',group:'security',label:'Phone & SMS',description:'Calls, texts & verification codes.',color:'coral',icon:'phone',
-    points:[
-      'Never give a security code to someone who calls or texts asking for it.',
-      'A call demanding immediate payment is a red flag.',
-      "Don't call back numbers left in a scary voicemail.",
-      "Unknown links in texts: don't tap, just delete.",
-      'Let unknown numbers go to voicemail first.',
-      'Be suspicious of texts saying you must act immediately.',
-      'Do not trust a caller just because they know your name.',
-      'If a caller claims to be your bank, call the bank using its official number.',
-      'Do not send money because someone is pressuring you on the phone.',
-      'If a text seems strange, contact the person another way before replying.'
-    ]
-  },
-  {
-    id:'banking',group:'security',label:'Banking apps',description:'Payments, alerts & account access.',color:'teal',icon:'bank',
-    points:[
-      "Only download your bank's app from the official app store.",
-      'Set up alerts for every transaction, however small.',
-      'Never share a one-time code with anyone who calls you.',
-      'Use a different password here than anywhere else.',
-      'Log out fully on shared or public computers.',
-      'Check your bank account regularly for transactions you do not recognize.',
-      'Do not use links in unexpected messages to reach your bank.',
-      'If someone says your account is in danger, contact your bank directly.',
-      'Never give remote access to your computer because someone claims to be your bank.',
-      'Report suspicious transactions to your bank as soon as possible.'
-    ]
-  },
-  {
-    id:'messaging',group:'security',label:'Messaging apps',description:'Chat apps, groups & account recovery.',color:'purple',icon:'chat',
-    apps:[
-      {name:'WhatsApp',color:'green',icon:'bubblePhone',points:[
-        'Turn on two-step verification with a PIN.',
-        'Urgent money request from "family"? Call them to confirm first.',
-        "Don't open a forwarded link without checking who sent it originally.",
-        'Check who can see your photo and "last seen" in privacy settings.',
-        'Block and report numbers that message you out of nowhere.',
-        'Never share your WhatsApp verification code with anyone.',
-        'Be careful with messages asking you to vote, win a prize, or claim money.',
-        'Check carefully before adding someone to a group.',
-        'Review linked devices and remove any you do not recognize.',
-        'Keep WhatsApp updated to get the latest security fixes.'
-      ]},
-      {name:'Signal',color:'blue',icon:'bubbleShield',points:[
-        'Verify the safety number with close contacts for extra certainty.',
-        'Turn on disappearing messages for sensitive chats.',
-        "Lock the app with your phone's fingerprint or face unlock.",
-        "Don't trust group invites from people you don't know.",
-        'Keep the app updated — updates often close security gaps.',
-        'Never share a Signal verification code with anyone.',
-        'Check a contact carefully before sending sensitive information.',
-        'Be cautious with unexpected links or files, even from known contacts.',
-        'Review who can see your profile information.',
-        'If a contact suddenly asks for money, verify them another way.'
-      ]},
-      {name:'Telegram',color:'sky',icon:'bubbleArrow',points:[
-        'Regular chats are not private by default — use "Secret Chat" for sensitive topics.',
-        'Be cautious of unknown channels or bots asking for personal details.',
-        'Turn on two-step verification in privacy settings.',
-        'No "official support" contacts you first — that is a scam pattern.',
-        'Control who can add you to groups in privacy settings.',
-        'Never share login or verification codes with anyone.',
-        'Be careful with links offering free money, prizes, or investments.',
-        'Check usernames carefully — scammers can copy someone you know.',
-        'Review active sessions and remove devices you do not recognize.',
-        'Keep Telegram updated.'
-      ]},
-      {name:'Messenger',color:'messenger',icon:'bubbleBolt',points:[
-        'Turn on login alerts to know if someone else accesses your account.',
-        "Be skeptical of urgent money requests, even from friends' accounts.",
-        'Use encrypted chats for anything sensitive.',
-        "Don't click links from accounts that suddenly message after being silent.",
-        "Review connected apps and remove ones you don't recognize.",
-        'Never share a login or security code with anyone.',
-        'Check the profile before trusting a new contact.',
-        'Be careful with messages about prizes, refunds, or account problems.',
-        'If a friend sends an unusual request, call them to confirm it is really them.',
-        'Keep Messenger and Facebook updated.'
-      ]},
-      {name:'iMessage',color:'blue',icon:'bubbleApple',points:[
-        'Be careful with unexpected messages asking you to click a link.',
-        'Urgent money request from a friend or family member? Call them to confirm first.',
-        'Never share verification codes sent to your phone.',
-        'Check the contact carefully before sending sensitive information.',
-        'Be cautious with links or attachments, even when they appear to come from someone you know.',
-        'Turn on Stolen Device Protection on your iPhone if it is available to you.',
-        'Use a strong device passcode and keep your iPhone updated.',
-        'Be careful with messages claiming to be Apple Support or another official service.',
-        'Block or report suspicious senders instead of continuing the conversation.',
-        'Review which devices are signed in to your Apple Account and remove anything unfamiliar.'
-      ]}
-    ]
-  },
-  {
-    id:'social',group:'security',label:'Social media',description:'Profiles, posts & impersonation.',color:'pink',icon:'share',
-    points:[
-      'Check who can see your posts before you share them.',
-      'Be careful accepting friend requests from people you do not know.',
-      'Do not post your home address, phone number, or other private details.',
-      'Be suspicious of new accounts pretending to be friends or family.',
-      'Never send money because someone contacts you through social media.',
-      'Check the account name carefully — scammers often copy real profiles.',
-      'Review which apps and websites have access to your social account.',
-      'Turn on two-step login for your social media accounts.',
-      'Think twice before posting photos showing tickets, documents, or personal information.',
-      'If a message feels unusual, contact the person another way to check it is really them.'
-    ]
-  },
-  {
-    id:'browser',group:'security',label:'Browser & web',description:'Websites, downloads & pop-ups.',color:'amber',icon:'globe',
-    points:[
-      'Check the website address before entering a password or payment details.',
-      'Look for spelling mistakes in website addresses — fake sites often use them.',
-      'Do not trust a website just because it looks professional.',
-      'Be careful with pop-ups telling you that your device has a virus.',
-      'Do not call phone numbers shown in unexpected security warnings.',
-      'Keep your web browser updated.',
-      'Do not save passwords on shared or public computers.',
-      'Be careful when downloading files from websites you do not know.',
-      'Do not allow websites to send notifications unless you trust them.',
-      'If a website asks for unusual information, stop and check why it needs it.'
-    ]
-  },
-  {
-    id:'wifi',group:'security',label:'Wi-Fi',description:'Home and public networks.',color:'blue',icon:'wifi',
-    points:[
-      'Give your home Wi-Fi a strong password.',
-      'Change the Wi-Fi password if you think someone else knows it.',
-      'Keep your router updated when updates are available.',
-      'Do not use the same password for Wi-Fi and important accounts.',
-      'Check the network name before joining public Wi-Fi.',
-      'Avoid entering banking or other sensitive information on unknown Wi-Fi.',
-      'Turn off automatic connection to Wi-Fi networks you do not know.',
-      'Do not share your home Wi-Fi password publicly.',
-      'Remove old or unknown devices from your home Wi-Fi when possible.',
-      'Ask staff for the correct Wi-Fi name instead of guessing in public places.'
-    ]
-  },
-  {
-    id:'passwords',group:'security',label:'Passwords & logins',description:'Passwords, 2-step login & recovery.',color:'coral',icon:'key',
-    points:[
-      'Use a different password for every important account.',
-      'Make important passwords long and difficult to guess.',
-      'Never use your name, birthday, or address as a password.',
-      'Do not use simple passwords like "123456" or "password".',
-      'Use a password manager to remember your passwords.',
-      'Turn on two-step login wherever it is offered.',
-      'Never tell anyone your password or login code.',
-      'Change a password immediately if you think someone knows it.',
-      'Your email password should be unique and especially strong.',
-      'Do not enter passwords on a computer you do not trust.'
-    ]
-  },
-  {
-    id:'phone-device',group:'security',label:'Your smartphone',description:'Device access, apps & permissions.',color:'teal',icon:'device',
-    points:[
-      'Use a PIN, password, fingerprint, or face unlock to lock your phone.',
-      'Keep your phone updated.',
-      'Turn on automatic updates if your phone offers them.',
-      'Only install apps from the official app store.',
-      'Delete apps you no longer use.',
-      'Check what permissions each app has been given.',
-      'Turn on Find My Device or the equivalent tracking feature.',
-      'Do not leave your phone unlocked where others can access it.',
-      'Set your phone to lock automatically after a short time.',
-      'Know how to remotely lock or erase your phone if it is lost.'
-    ]
-  },
-  {
-    id:'usb',group:'security',label:'USB & physical media',description:'Drives, files & found devices.',color:'purple',icon:'usb',
-    points:[
-      'Do not plug in a USB drive you find lying around.',
-      'Only use USB drives you trust.',
-      'Scan unfamiliar USB drives before opening files on them.',
-      'Do not accept USB drives from strangers.',
-      'Keep important files backed up somewhere else.',
-      'Eject USB drives safely before removing them.',
-      'Do not leave USB drives containing private information unattended.',
-      'Avoid using unknown USB drives on your work computer.',
-      'Label your own USB drives so you know what they contain.',
-      'If a USB drive behaves strangely, stop using it and ask for help.'
-    ]
-  },
-  {
-    id:'scams',group:'security',label:'Scams & social engineering',description:'Pressure tactics, impersonation & requests.',color:'coral',icon:'warning',
-    points:[
-      'Urgency is a common scam tactic — slow the conversation down before acting.',
-      'A familiar name, logo, or caller ID does not prove who contacted you.',
-      'Never share passwords, one-time codes, or recovery codes because someone asks for them.',
-      'If someone asks for money, verify them using a different way to contact them.',
-      'Be careful with requests to move a conversation to a new app or private channel.',
-      'Remote-access requests deserve extra caution; use support you found yourself.',
-      'Be suspicious of prizes, refunds, investments, or jobs that require payment first.',
-      'Deepfake voices and videos can make fake requests look or sound convincing.',
-      'When something feels rushed or unusual, stop and check the story independently.',
-      'Report scams through the service involved and keep useful evidence such as screenshots.'
-    ]
-  },
-  {
-    id:'updates-backups',group:'security',label:'Updates & backups',description:'Keep devices current and copies available.',color:'teal',icon:'refresh',
-    points:[
-      'Install operating system and app updates when they become available.',
-      'Turn on automatic updates where it makes sense.',
-      'Update your browser, router, phone, and other connected devices too.',
-      'Keep important photos and files in a second location.',
-      'Check that backups are actually completing instead of assuming they are.',
-      'Keep at least one backup separate from the device it came from.',
-      'Back up files before major device changes or repairs.',
-      'Do not keep your only copy of important documents on a USB drive.',
-      'Replace or retire devices that no longer receive security updates when practical.',
-      'Know how you would restore your important files after losing a device.'
-    ]
-  },
-  {
-    id:'privacy-permissions',group:'security',label:'Privacy & permissions',description:'What apps and sites can access.',color:'pink',icon:'lock',
-    points:[
-      'Review which apps can use your camera, microphone, contacts, photos, and location.',
-      'Give an app only the access it actually needs.',
-      'Turn off permissions you no longer want an app to have.',
-      'Be cautious when a simple app asks for access to unrelated information.',
-      'Review browser permissions for notifications, camera, microphone, and location.',
-      'Check location sharing in maps, social apps, and photo apps.',
-      'Remove apps you no longer use and review their permissions first.',
-      'Do not approve permission requests just to get past a setup screen.',
-      'Review privacy settings after major app or phone updates.',
-      'When in doubt, look up why an app needs a permission before allowing it.'
-    ]
-  },
-  {
-    id:'shopping',group:'security',label:'Online shopping',description:'Stores, payments, delivery & refunds.',color:'amber',icon:'cart',
-    points:[
-      'Check the website address before entering payment details.',
-      'Be cautious of unusually large discounts or pressure to buy immediately.',
-      'Use payment methods that give you useful purchase records and dispute options.',
-      'Check the seller and return policy before buying from an unfamiliar store.',
-      'Be wary of messages asking you to pay a small delivery or customs fee.',
-      'Do not let a seller rush you into using a payment method you did not choose.',
-      'Keep order confirmations and receipts until the purchase is settled.',
-      'Use a unique password for shopping accounts and turn on two-step login when available.',
-      'Check your bank or card statement for unexpected charges after a purchase.',
-      'When a refund message looks unusual, contact the store through its official website.'
-    ]
-  },
-  {
-    id:'accounts-recovery',group:'security',label:'Accounts & recovery',description:'Recovery details, sign-ins & locked accounts.',color:'blue',icon:'recovery',
-    points:[
-      'Keep your recovery email address and phone number up to date.',
-      'Make sure your most important accounts have a recovery method you can actually use.',
-      'Check recent sign-ins or active sessions when a service offers them.',
-      'Remove old devices you no longer use from your account.',
-      'Save backup codes somewhere safe when a service provides them.',
-      'Do not store recovery codes in the same place as the account password.',
-      'Use your primary email account carefully because it can help reset other accounts.',
-      'Know how to contact a service through its official support route before you need it.',
-      'If an account is locked unexpectedly, avoid making more changes through a suspicious message.',
-      'After recovering an account, change the password and review sessions, recovery details, and 2-step login.'
-    ]
-  },
-  {
-    id:'data-privacy',group:'privacy',label:'Data privacy',description:'Personal information, tracking, sharing & control.',color:'purple',icon:'privacy',
-    points:[
-      'Share only the personal information a service actually needs.',
-      'Check what an app or website says it will do with your information before signing up.',
-      'Review privacy settings on social media, shopping sites, and major accounts.',
-      'Turn off location sharing when a service does not need your location.',
-      'Be careful with quizzes, forms, and surveys that ask for more personal detail than expected.',
-      'Think before posting information that can reveal where you live, work, or regularly go.',
-      'Delete old accounts you no longer use when practical.',
-      'Be cautious about uploading identity documents, private photos, or sensitive files.',
-      'Review browser cookies and tracking choices occasionally.',
-      'When a service asks for personal information, pause and ask: do I need to share this at all?'
-    ]
-  },
-  {
-    id:'incident-security',group:'incidents',label:'Information security',description:'What to do after a security incident.',color:'coral',icon:'incident',
-    points:[
-      'Phishing email: stop before clicking again; if you entered a password, change it from the real website.',
-      'Scam call or vishing: end the call, then contact the claimed organisation using a trusted number.',
-      'Smishing text: do not follow the link; delete or report it and check the real account another way.',
-      'Suspicious deepfake video or voice: verify the request through another channel before sending money or information.',
-      'Account may be hacked: change the password, sign out other sessions, and turn on two-step login.',
-      'Lost or stolen phone: use the device-finding service to lock it and contact your mobile provider if needed.',
-      'Remote-access scam: disconnect the session, remove the remote-access software, and change important passwords.',
-      'Malware or a strange pop-up: stop entering passwords or payment details and get help from a trusted source.',
-      'Cyberstalking or repeated unwanted contact: save evidence, block where appropriate, and use the service reporting tools.',
-      'Money sent to a scammer: contact the bank or payment provider immediately and keep the messages and transaction details.'
-    ]
-  },
-  {
-    id:'incident-privacy',group:'incidents',label:'Data privacy',description:'What to do after personal data is exposed.',color:'pink',icon:'shield',
-    points:[
-      'A company reports a breach: read the official notice and find out what information was affected.',
-      'Your email or password was exposed: change the password and anywhere else you reused it.',
-      'Personal ID information was exposed: watch for unusual account activity and use trusted guidance from the affected organisation.',
-      'A private photo or document was shared: ask the recipient or platform to remove it and review who else can access it.',
-      'An app collected information unexpectedly: review its permissions and privacy settings, then remove access you do not need.',
-      'Your contact details are being misused: block unwanted messages and review what personal information is publicly visible.',
-      'Someone posted your personal information: document it, report it to the platform, and consider whether other accounts expose the same details.',
-      'You sent personal information to the wrong person: ask for deletion where practical and watch for follow-up misuse.',
-      'You suspect identity misuse: contact the affected provider through an official channel and keep records of what happened.',
-      'After any privacy incident: review passwords, permissions, public profiles, and the personal information you still share.'
+  help:{
+    kicker:'WHAT TO DO NOW',
+    steps:[
+      ['Protect your money and accounts','Call your bank or payment provider first and ask them to block or freeze.'],
+      ['Report it','Contact your country’s national cyber or fraud helpline, or the police.'],
+      ['Keep the evidence','Save screenshots, numbers and payment details, then change affected passwords.']
+    ],
+    link:['See the full steps →','incident-security'],
+    situations:[ // optional picker: tailored steps for common situations
+      {id:'sent',g:'Money',label:'I sent money',steps:[
+        ['Call your bank or payment provider now','Ask them to stop or recall the payment. Minutes matter.'],
+        ['Report it','Contact your country’s national cyber or fraud helpline, or the police.'],
+        ['Keep the evidence','Save screenshots, numbers and payment details. Do not reply to the scammer.']]},
+      {id:'code',g:'Accounts',label:'I shared a code',steps:[
+        ['Change it now','Change the password or PIN from the official app or site, never from a link.'],
+        ['Sign out everywhere','End other sessions and turn on two-step login.'],
+        ['Watch your money','If payments are involved, call the number on your bank card.']]},
+      {id:'hacked',g:'Accounts',label:'Account hacked',steps:[
+        ['Recover it from the official site','Use the service’s own recovery page.'],
+        ['Secure your email','Change its password and turn on two-step login.'],
+        ['Warn your contacts','Tell friends to ignore odd messages from you.']]},
+      {id:'lost',g:'Phone & device',label:'Lost my phone',steps:[
+        ['Lock or erase it','Use Find My Device or your Apple or Google account.'],
+        ['Call your mobile provider','Ask them to block the SIM.'],
+        ['Change key passwords','Start with email and banking, and tell your bank.']]}
     ]
   }
+};
+
+// The self check-up: tick what you have done. Each action carries an impact
+// weight; weights add up to 100 so the score reads as a percentage.
+const checkup = {
+  bands:[ // [minimum %, level, note]
+    [0,'Just starting','Start with one step. Your email login is the highest-impact place to begin.'],
+    [1,'Good start','Nice start. Every step you add makes you a harder target.'],
+    [34,'Making progress','Well done. You have covered a good share of what matters most.'],
+    [67,'Nearly there','Great work. You are only a step or two from fully prepped.'],
+    [100,'Fully prepped','Gold star! The core steps are done. Level up below for a platinum badge.']
+  ],
+  items:[ // [action, hint, impact %]
+    ['Two-step login on your email','Your email can reset every other account.',20],
+    ['UPI and payment alerts switched on','So you see every payment straight away.',15],
+    ['Two-step verification in WhatsApp','Settings › Account › Two-step verification.',12],
+    ['A screen lock and automatic updates','Phone locked, updates switched on.',12],
+    ['A unique password for your email','Long, and not used anywhere else.',12],
+    ['Your bank’s real number saved','Copy it from your card or passbook, not from a message.',9],
+    ['The national cyber helpline saved','In India this is 1930. Save it before you need it.',10],
+    ['One family member told the essentials','Share the five rules. Parents are often targeted first.',10]
+  ],
+  extras:[ // level-up steps, [topic id, action]. Finish them all for the platinum badge.
+    ['messaging','Review linked devices in WhatsApp and remove unknown ones'],
+    ['messaging','Set who can add you to groups'],
+    ['banking','Turn on app lock in your payment apps'],
+    ['phone','Turn on spam-call or unknown-caller filtering'],
+    ['email','Check your email’s recent sign-in activity'],
+    ['browser','Turn off site notifications you do not need'],
+    ['passwords','Save backup codes for your main accounts'],
+    ['passwords','Update your recovery phone number and email'],
+    ['data-privacy','Review app permissions: location, camera, contacts'],
+    ['data-privacy','Lock your Aadhaar biometrics (UIDAI)'],
+    ['social','Limit who can see your profile and posts'],
+    ['phone-device','Turn on Find My Device'],
+    ['wifi','Change your router’s default admin password'],
+    ['backups','Back up your photos to a second place']
+  ]
+};
+
+// The "More situations" page: the four quick ones above plus these.
+// Steps are plain sentences (or [title, detail] pairs).
+const sitGroups = ['Money','Accounts','Phone & device','Personal information','Unwanted contact'];
+const moreSituations = [
+  {id:'debit',g:'Money',label:'A payment I do not recognise',steps:['Call your bank or payment provider now and report it.','Ask them to block the card or account if needed.','Change your banking passwords and PINs.']},
+  {id:'remote',g:'Money',label:'I let someone control my device',steps:['Disconnect from the internet and close the remote-access app.','Uninstall it, then change important passwords from another device.','Call your bank and tell them.']},
+  {id:'arrest',g:'Money',label:'A “police” or “digital arrest” call',steps:['Hang up. No agency arrests people or takes money over a video call.','Tell a family member and do not pay anything.','Report it to your national cyber helpline or the police.']},
+  {id:'invest',g:'Money',label:'I paid into a fake investment or job',steps:['Stop paying. Never pay a “release” or “tax” fee.','Contact your bank and report it to the helpline or police.','Save chats, links and payment proofs.']},
+  {id:'phish',g:'Accounts',label:'I entered a password on a fake site',steps:['Change that password from the real site now.','Change it anywhere you reused it and turn on two-step login.','Check recent activity for anything you did not do.']},
+  {id:'wa',g:'Accounts',label:'My WhatsApp was taken over',steps:['Register your number again on your phone to log the thief out.','Turn on two-step verification.','Tell your contacts not to trust messages from you.']},
+  {id:'sim',g:'Accounts',label:'My phone suddenly lost signal',steps:['Call your mobile provider from another phone. It may be a SIM swap.','Tell your bank and change your email password.','Watch for codes you did not request.']},
+  {id:'malware',g:'Phone & device',label:'I installed a suspicious app',steps:['Uninstall it and stop entering passwords or payment details.','Update your phone and run a security scan.','Change key passwords from a clean device.']},
+  {id:'breach',g:'Personal information',label:'A company told me of a data breach',steps:['Read the official notice to see what was exposed.','Change the password, and anywhere you reused it.','Watch for phishing that mentions the breach.']},
+  {id:'id',g:'Personal information',label:'I sent ID documents to a scammer',steps:['Tell the issuer of the document and your bank.','Watch for accounts or loans you did not open.','Save what you sent and when.']},
+  {id:'photo',g:'Personal information',label:'Someone threatens to share my photos',steps:['Do not pay and stop replying. You are not to blame.','Save the messages, then block and report the account.','Report to your national helpline or the police, and talk to someone you trust.']},
+  {id:'stalk',g:'Unwanted contact',label:'Repeated unwanted contact',steps:['Save evidence and block the sender.','Report the account to the service.','Tighten your privacy settings and tell someone you trust.']},
+  {id:'fake',g:'Unwanted contact',label:'Someone is pretending to be me',steps:['Report the fake profile to the platform.','Warn your contacts.','Save screenshots and links.']}
+];
+
+// "Is this a scam?" quick check: the number of yes answers picks the verdict.
+const scamCheck = {
+  questions:[
+    'Did they contact you first, out of the blue?',
+    'Are they rushing or scaring you?',
+    'Do they want money, a code, a PIN or remote access?'
+  ],
+  verdicts:[ // [level, title, text] for 0, 1 and 2+ yes answers
+    ['low','Lower risk so far','No classic warning signs here. If anything still feels off, check with the real organisation using a number you already have.'],
+    ['mid','Be careful','One warning sign is enough to slow down. Do not act yet. Check using a number or app you already trust.'],
+    ['high','Very likely a scam','Stop. Do not reply, pay or share anything. Hang up, then contact the real organisation yourself.']
+  ]
+};
+
+// "Spot the scam": [message, is it a scam?, why]. The messages are made up.
+const spot = [
+  ['“Your bank account will be blocked today. Update your KYC now: kyc-update-now.example”',true,'A threat, a deadline and a link. Banks do not ask you to update details through a texted link.'],
+  ['“482915 is your login code. Do not share it with anyone.” (you had just tried to log in)',false,'A genuine code arrives only when you asked for it and asks nothing of you. The scam is anyone asking you to read it out.'],
+  ['“Hi Mum, this is my new number. I dropped my phone. Can you send money urgently?”',true,'New number, urgency and money. Call the number you already have before doing anything.']
+];
+
+// Tip of the day: one is shown per day, rotating through the list.
+const tips = [
+  'Save your bank’s real number in your phone today.',
+  'A real bank will never ask for your PIN, even on a call from “the fraud team”.',
+  'Pause before you tap. Scammers count on a quick reaction.',
+  'Two-step login on your email protects every other account.',
+  'Sure it is a friend asking for money? Call them on the number you already have.',
+  'Found a “too good to be true” investment tip? It is.',
+  'Let unknown numbers go to voicemail. Real callers leave a message.',
+  'Type your bank’s address yourself instead of following a link.',
+  'Nobody legitimate needs you to install an app during a call.',
+  'Check your payment alerts today. Do they all look familiar?',
+  'A rushed request is a reason to slow down, not speed up.',
+  'Update your phone tonight. It takes a minute and closes real gaps.'
+];
+
+const data = [
+  {id:'essentials',group:'security',label:'The essentials',description:'Five habits that stop most scams.',color:'coral',icon:'shield',tag:'Start here',
+    points:[
+      'Never share a code, PIN or password with anyone.',
+      'Urgency or fear means stop. Hang up, then check for yourself.',
+      'No bank, police or government office asks you to pay or move money over a call.',
+      'You never need a PIN or a QR scan to receive money.',
+      'Verify unusual requests another way, using a number you already have.'
+    ]},
+  {id:'scams',group:'security',label:'Scams to recognise',description:'The tricks you are most likely to meet.',color:'amber',icon:'warning',tag:'Scams',
+    points:[
+      '“Digital arrest” or fake police calls: no agency arrests or takes payment over a video call.',
+      '“Account blocked” or KYC messages: use your bank’s app, never the link.',
+      'Payment requests: entering a PIN or scanning a QR code only ever sends money.',
+      'Investment tips and “part-time jobs”: never pay first in order to earn.',
+      'Parcel or customs calls: hang up and check with the courier yourself.',
+      'A relative in trouble from a new number: call the number you already have.'
+    ]},
+  {id:'email',group:'security',label:'Email & links',description:'Senders, links & attachments.',color:'blue',icon:'mail',tag:'Communication',
+    points:[
+      'Check the sender address, not just the name shown.',
+      'Look at where a link goes before you tap it.',
+      'Do not open attachments you were not expecting.'
+    ]},
+  {id:'phone',group:'security',label:'Calls & texts',description:'Callers, texts & verification codes.',color:'sky',icon:'phone',tag:'Calls & messages',
+    points:[
+      'Links in texts from unknown numbers: delete, do not tap.',
+      'If a caller claims to be your bank, hang up and call the number on your card.',
+      'Never install an app or share your screen because a caller asks.'
+    ]},
+  {id:'banking',group:'security',label:'Banking & payments',description:'Apps, alerts & account access.',color:'teal',icon:'bank',tag:'Money & payments',
+    points:[
+      'Download banking apps only from the official app store.',
+      'Turn on alerts for every transaction, however small.',
+      'Check your statements often and report anything unfamiliar straight away.'
+    ]},
+  {id:'messaging',group:'security',label:'Messaging apps',description:'Chat apps, groups & linked devices.',color:'purple',icon:'chat',tag:'Chat & messaging',
+    apps:[
+      {name:'WhatsApp',color:'green',points:[
+        'Turn on two-step verification with a PIN.',
+        'Review linked devices and remove any you do not recognise.',
+        'Set who can see your photo and add you to groups.'
+      ]},
+      {name:'Signal',color:'blue',points:[
+        'Turn on Registration Lock and set a PIN.',
+        'Use disappearing messages for sensitive chats.',
+        'Lock the app with your fingerprint or face.'
+      ]},
+      {name:'Telegram',color:'sky',points:[
+        'Turn on two-step verification in privacy settings.',
+        'Normal chats are not end-to-end encrypted: use Secret Chat for private topics.',
+        'Review active sessions and remove devices you do not know.'
+      ]},
+      {name:'Messenger',color:'messenger',points:[
+        'Turn on login alerts.',
+        'Review where you are logged in and which apps are connected.',
+        'A friend who suddenly asks for money may have been hacked.'
+      ]},
+      {name:'iMessage',color:'blue',points:[
+        'Turn on Stolen Device Protection if it is available.',
+        'Check which devices are signed in to your Apple Account.',
+        'Be wary of messages claiming to be Apple Support.'
+      ]}
+    ]},
+  {id:'social',group:'security',label:'Social media',description:'Profiles, posts & impersonation.',color:'pink',icon:'share',tag:'Social & sharing',
+    points:[
+      'Check who can see your posts, and keep addresses and documents off them.',
+      'Fake profiles copy real people: check the account before you trust it.',
+      'Review which apps and websites can access your account.'
+    ]},
+  {id:'browser',group:'security',label:'Browsing & shopping',description:'Websites, pop-ups & online payments.',color:'amber',icon:'globe',tag:'Web & shopping',
+    points:[
+      'Check the website address before entering a password or payment details.',
+      'Pop-ups warning of a “virus”, and the numbers they show, are scams.',
+      'Pay in ways that give you records and a way to dispute the charge.'
+    ]},
+  {id:'passwords',group:'security',label:'Passwords & accounts',description:'Logins, 2-step login & recovery.',color:'coral',icon:'key',tag:'Account security',
+    points:[
+      'Use a long, unique password for your email and a password manager for the rest.',
+      'Turn on two-step login wherever it is offered.',
+      'Keep recovery details current and save backup codes somewhere safe.'
+    ]},
+  {id:'phone-device',group:'security',label:'Your smartphone',description:'Locks, updates & lost phones.',color:'teal',icon:'device',tag:'Device security',
+    points:[
+      'Use a screen lock and turn on automatic updates.',
+      'Install apps only from the official app store.',
+      'Turn on Find My Device so you can lock or erase a lost phone.'
+    ]},
+  {id:'data-privacy',group:'privacy',label:'Data privacy',description:'Personal information, permissions & tracking.',color:'purple',icon:'privacy',tag:'Data privacy',
+    points:[
+      'Share only what a service actually needs. Ask: do I need to give this at all?',
+      'Review app permissions and location sharing, and delete apps and accounts you no longer use.',
+      'Be careful uploading ID documents and private photos.'
+    ]},
+  {id:'incident-security',group:'incidents',label:'Security incident',description:'What to do when something has gone wrong.',color:'coral',icon:'incident',tag:'Security incident help',
+    points:[
+      'Money sent to a scammer: contact your bank or payment provider now, then your national cyber helpline or the police.',
+      'Account hacked or password entered on a fake site: change the password from the real website, sign out other sessions, turn on two-step login.',
+      'Gave someone remote access: disconnect, remove the software and change important passwords.',
+      'Lost or stolen phone: lock it with Find My Device and call your mobile provider.',
+      'Harassment or a fake voice or video: save evidence, block, report to the service and verify requests another way.'
+    ]},
+  {id:'incident-privacy',group:'incidents',label:'Privacy incident',description:'What to do after personal data is exposed.',color:'pink',icon:'lock',tag:'Privacy incident help',
+    points:[
+      'Company breach notice: read what was affected and change reused passwords.',
+      'Private photo or personal details posted: document it and ask the platform to remove it.',
+      'Sent information to the wrong person: ask them to delete it and watch your accounts.',
+      'Afterwards: review passwords, permissions and what you share publicly.'
+    ]},
+  {id:'situations',group:'incidents',label:'More situations',description:'Pick what happened. Short steps for each.',color:'coral',icon:'incident',tag:'Something happened',view:'situations'},
+  {id:'checkup',group:'checkup',label:'Self check-up',description:'Eight core steps, plus level-ups.',color:'green',icon:'check',tag:'Quick check',view:'checkup'},
+  {id:'scamcheck',group:'tryit',label:'Is this a scam?',description:'Three questions, one clear answer.',color:'coral',icon:'warning',tag:'Quick check',view:'scamcheck'},
+  {id:'spot',group:'tryit',label:'Spot the scam',description:'Real or scam? Test your eye.',color:'amber',icon:'mail',tag:'Practice',view:'spot'},
+  {id:'usb',group:'curious',label:'USB & found devices',description:'Drives, files & unknown devices.',color:'purple',icon:'usb',tag:'Physical media',
+    points:[
+      'Never plug in a USB drive you found or were handed by a stranger.',
+      'Use only drives you trust, and keep private files off them.',
+      'A drive that behaves strangely: stop using it and ask for help.'
+    ]},
+  {id:'wifi',group:'curious',label:'Wi-Fi & router',description:'Home and public networks.',color:'blue',icon:'wifi',tag:'Network security',
+    points:[
+      'Give home Wi-Fi a strong password and keep the router updated.',
+      'Avoid banking on public Wi-Fi and check the network name first.',
+      'Remove devices you do not recognise from your network.'
+    ]},
+  {id:'backups',group:'curious',label:'Updates & backups',description:'Keep devices current and files recoverable.',color:'teal',icon:'refresh',tag:'Updates & backups',
+    points:[
+      'Install updates when offered, including on your router and browser.',
+      'Keep important photos and files in a second place.',
+      'Check that backups really complete instead of assuming.'
+    ]}
 ];
